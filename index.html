@@ -32,8 +32,6 @@ object-fit:cover;
 pointer-events:none;
 }
 
-/* タイトル */
-
 .title{
 position:absolute;
 bottom:30px;
@@ -45,8 +43,6 @@ text-shadow:0 0 15px #ff5aa5;
 z-index:10;
 white-space:nowrap;
 }
-
-/* ボタン */
 
 button{
 position:absolute;
@@ -64,11 +60,9 @@ box-shadow:0 0 20px rgba(255,0,100,0.7);
 z-index:10;
 }
 
-/* おみくじ結果 */
-
 .result{
 position:absolute;
-top:50%;
+top:58%;
 left:50%;
 transform:translate(-50%,-50%);
 font-size:64px;
@@ -82,8 +76,6 @@ text-shadow:
 0 0 80px gold;
 z-index:20;
 }
-
-/* キラキラ */
 
 .sparkle{
 position:absolute;
@@ -107,9 +99,9 @@ opacity:0;
 
 <div class="result" id="result"></div>
 
-<img id="photo" src="photo1.jpg">
+<img id="photo" src="photo9.jpg">
 
-<button id="btn" onclick="startOmikuji()">おみくじを引く</button>
+<button onclick="startOmikuji()">おみくじを引く</button>
 
 </div>
 
@@ -123,7 +115,8 @@ const photos=[
 "photo5.jpg",
 "photo6.jpg",
 "photo7.jpg",
-"photo8.jpg"
+"photo8.jpg",
+"photo9.jpg"
 ];
 
 const fortunes=[
