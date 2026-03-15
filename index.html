@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>グラビアガチャ</title>
+<title>今日の綾おみくじ</title>
 
 <style>
 
@@ -16,12 +16,14 @@ justify-content:center;
 align-items:center;
 height:100vh;
 overflow:hidden;
+color:white;
 }
 
 .container{
 position:relative;
 width:100vw;
 height:100vh;
+text-align:center;
 }
 
 img{
@@ -35,10 +37,9 @@ position:absolute;
 top:40px;
 left:50%;
 transform:translateX(-50%);
-color:white;
-font-size:28px;
+font-size:32px;
 font-weight:bold;
-letter-spacing:2px;
+text-shadow:0 0 20px #ff5aa5;
 }
 
 button{
@@ -56,6 +57,16 @@ font-weight:bold;
 box-shadow:0 0 20px rgba(255,0,100,0.7);
 }
 
+.result{
+position:absolute;
+top:100px;
+left:50%;
+transform:translateX(-50%);
+font-size:40px;
+font-weight:bold;
+text-shadow:0 0 20px gold;
+}
+
 .sparkle{
 position:absolute;
 width:8px;
@@ -66,7 +77,6 @@ opacity:0;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -74,12 +84,14 @@ opacity:0;
 <div class="container">
 
 <div class="title">
-GRAVURE GACHA
+今日の綾おみくじ
 </div>
+
+<div class="result" id="result"></div>
 
 <img id="photo" src="photo1.jpg">
 
-<button onclick="startRoulette()">START</button>
+<button onclick="startRoulette()">おみくじを引く</button>
 
 </div>
 
@@ -96,10 +108,17 @@ const photos=[
 "photo8.jpg"
 ];
 
+const fortunes=[
+"大吉",
+"中吉",
+"吉",
+"小吉"
+];
+
 function startRoulette(){
 
-let speed=70;
-let count=0;
+let duration=5000;
+let start=Date.now();
 
 const roulette=setInterval(()=>{
 
@@ -107,58 +126,25 @@ const random=Math.floor(Math.random()*photos.length);
 
 document.getElementById("photo").src=photos[random];
 
-count++;
-
-if(count>35){
+if(Date.now()-start>duration){
 
 clearInterval(roulette);
 
+showFortune();
 sparkleEffect();
 
 }
 
-},speed);
+},80);
+
+}
+
+function showFortune(){
+
+const fortune=fortunes[Math.floor(Math.random()*fortunes.length)];
+
+document.getElementById("result").innerText=fortune;
 
 }
 
 function sparkleEffect(){
-
-for(let i=0;i<60;i++){
-
-let s=document.createElement("div");
-
-s.className="sparkle";
-
-document.body.appendChild(s);
-
-s.style.left=Math.random()*window.innerWidth+"px";
-s.style.top=Math.random()*window.innerHeight+"px";
-
-s.animate(
-
-[
-{transform:"scale(0)",opacity:1},
-{transform:"scale(2)",opacity:0}
-],
-
-{
-duration:800,
-easing:"ease-out"
-}
-
-);
-
-setTimeout(()=>{
-
-s.remove();
-
-},800);
-
-}
-
-}
-
-</script>
-
-</body>
-</html>
