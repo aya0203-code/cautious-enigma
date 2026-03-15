@@ -41,6 +41,7 @@ transform:translateX(-50%);
 font-size:32px;
 font-weight:bold;
 text-shadow:0 0 20px #ff5aa5;
+z-index:10;
 }
 
 button{
@@ -61,12 +62,13 @@ z-index:10;
 
 .result{
 position:absolute;
-top:100px;
+top:120px;
 left:50%;
 transform:translateX(-50%);
-font-size:40px;
+font-size:48px;
 font-weight:bold;
 text-shadow:0 0 20px gold;
+z-index:10;
 }
 
 .sparkle{
@@ -93,7 +95,7 @@ opacity:0;
 
 <img id="photo" src="photo1.jpg">
 
-<button onclick="startRoulette()">おみくじを引く</button>
+<button onclick="startOmikuji()">おみくじを引く</button>
 
 </div>
 
@@ -117,10 +119,12 @@ const fortunes=[
 "小吉"
 ];
 
-function startRoulette(){
+function startOmikuji(){
 
 let duration=5000;
 let start=Date.now();
+
+document.getElementById("result").innerText="";
 
 const roulette=setInterval(()=>{
 
@@ -150,3 +154,38 @@ document.getElementById("result").innerText=fortune;
 }
 
 function sparkleEffect(){
+
+for(let i=0;i<70;i++){
+
+let s=document.createElement("div");
+
+s.className="sparkle";
+
+document.body.appendChild(s);
+
+s.style.left=Math.random()*window.innerWidth+"px";
+s.style.top=Math.random()*window.innerHeight+"px";
+
+s.animate(
+[
+{transform:"scale(0)",opacity:1},
+{transform:"scale(2)",opacity:0}
+],
+{
+duration:800,
+easing:"ease-out"
+}
+);
+
+setTimeout(()=>{
+s.remove();
+},800);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
