@@ -23,7 +23,6 @@ color:white;
 position:relative;
 width:100vw;
 height:100vh;
-text-align:center;
 }
 
 img{
@@ -33,25 +32,29 @@ object-fit:cover;
 pointer-events:none;
 }
 
+/* タイトル */
+
 .title{
 position:absolute;
-top:40px;
+bottom:30px;
 left:50%;
 transform:translateX(-50%);
-font-size:32px;
+font-size:26px;
 font-weight:bold;
-text-shadow:0 0 20px #ff5aa5;
+text-shadow:0 0 15px #ff5aa5;
 z-index:10;
 white-space:nowrap;
 }
 
+/* ボタン */
+
 button{
 position:absolute;
-bottom:80px;
+bottom:90px;
 left:50%;
 transform:translateX(-50%);
-padding:18px 40px;
-font-size:22px;
+padding:16px 40px;
+font-size:20px;
 border:none;
 border-radius:60px;
 background:linear-gradient(45deg,#ff2a6d,#ff7aa2);
@@ -61,21 +64,31 @@ box-shadow:0 0 20px rgba(255,0,100,0.7);
 z-index:10;
 }
 
+/* おみくじ結果 */
+
 .result{
 position:absolute;
-top:120px;
+top:50%;
 left:50%;
-transform:translateX(-50%);
-font-size:48px;
+transform:translate(-50%,-50%);
+font-size:64px;
 font-weight:bold;
-text-shadow:0 0 20px gold;
-z-index:10;
+text-align:center;
+color:#fff;
+text-shadow:
+0 0 10px #fff,
+0 0 20px #ff7ad9,
+0 0 40px #ff2a6d,
+0 0 80px gold;
+z-index:20;
 }
+
+/* キラキラ */
 
 .sparkle{
 position:absolute;
-width:8px;
-height:8px;
+width:10px;
+height:10px;
 background:white;
 border-radius:50%;
 opacity:0;
@@ -88,7 +101,7 @@ opacity:0;
 
 <div class="container">
 
-<div class="title">
+<div class="title" id="title">
 今日の綾おみくじ
 </div>
 
@@ -96,7 +109,7 @@ opacity:0;
 
 <img id="photo" src="photo1.jpg">
 
-<button onclick="startOmikuji()">おみくじを引く</button>
+<button id="btn" onclick="startOmikuji()">おみくじを引く</button>
 
 </div>
 
@@ -122,10 +135,10 @@ const fortunes=[
 
 function startOmikuji(){
 
+document.getElementById("title").style.display="none";
+
 let duration=5000;
 let start=Date.now();
-
-document.getElementById("result").innerText="";
 
 const roulette=setInterval(()=>{
 
@@ -156,7 +169,7 @@ document.getElementById("result").innerText=fortune;
 
 function sparkleEffect(){
 
-for(let i=0;i<70;i++){
+for(let i=0;i<120;i++){
 
 let s=document.createElement("div");
 
@@ -170,17 +183,17 @@ s.style.top=Math.random()*window.innerHeight+"px";
 s.animate(
 [
 {transform:"scale(0)",opacity:1},
-{transform:"scale(2)",opacity:0}
+{transform:"scale(3)",opacity:0}
 ],
 {
-duration:800,
+duration:1200,
 easing:"ease-out"
 }
 );
 
 setTimeout(()=>{
 s.remove();
-},800);
+},1200);
 
 }
 
