@@ -11,9 +11,6 @@ body{
 margin:0;
 background:#000;
 font-family:sans-serif;
-display:flex;
-justify-content:center;
-align-items:center;
 height:100vh;
 overflow:hidden;
 color:white;
@@ -40,8 +37,8 @@ transform:translateX(-50%);
 font-size:26px;
 font-weight:bold;
 text-shadow:0 0 15px #ff5aa5;
-z-index:10;
 white-space:nowrap;
+z-index:10;
 }
 
 button{
@@ -49,14 +46,15 @@ position:absolute;
 bottom:90px;
 left:50%;
 transform:translateX(-50%);
-padding:16px 40px;
-font-size:20px;
+padding:14px 28px;
+font-size:18px;
 border:none;
-border-radius:60px;
+border-radius:50px;
 background:linear-gradient(45deg,#ff2a6d,#ff7aa2);
 color:white;
 font-weight:bold;
 box-shadow:0 0 20px rgba(255,0,100,0.7);
+white-space:nowrap;
 z-index:10;
 }
 
@@ -68,7 +66,7 @@ transform:translate(-50%,-50%);
 font-size:70px;
 font-weight:bold;
 text-align:center;
-color:#fff;
+white-space:nowrap;
 text-shadow:
 0 0 10px #fff,
 0 0 20px #ff7ad9,
@@ -118,12 +116,14 @@ const photos=[
 "photo1.jpg",
 "photo2.jpg",
 "photo3.jpg",
-"photo4.jpg",
 "photo5.jpg",
 "photo6.jpg",
 "photo7.jpg",
 "photo8.jpg",
-"photo9.jpg"
+"photo9.jpg",
+"photo10.jpg",
+"photo11.jpg",
+"photo12.jpg"
 ];
 
 const fortunes=[
@@ -136,6 +136,7 @@ const fortunes=[
 
 function startOmikuji(){
 
+document.getElementById("result").innerText="";
 document.getElementById("title").style.display="none";
 
 let duration=5000;
