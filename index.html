@@ -2,252 +2,60 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>今日の綾おみくじ</title>
 
 <style>
-
 body{
-margin:0;
-background:#000;
-font-family:sans-serif;
-height:100vh;
-overflow:hidden;
-color:white;
+  margin:0;
+  font-family:sans-serif;
+  background:#fff;
+  text-align:center;
 }
 
-.container{
-position:relative;
-width:100vw;
-height:100vh;
+h1{
+  margin-top:40px;
 }
 
-img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.title{
-position:absolute;
-bottom:30px;
-left:50%;
-transform:translateX(-50%);
-font-size:26px;
-font-weight:bold;
-text-shadow:0 0 15px #ff5aa5;
-white-space:nowrap;
-z-index:10;
+#image{
+  margin-top:20px;
+  max-width:90%;
+  height:auto;
 }
 
 button{
-position:absolute;
-bottom:90px;
-left:50%;
-transform:translateX(-50%);
-padding:14px 28px;
-font-size:18px;
-border:none;
-border-radius:50px;
-background:linear-gradient(45deg,#ff2a6d,#ff7aa2);
-color:white;
-font-weight:bold;
-box-shadow:0 0 20px rgba(255,0,100,0.7);
-white-space:nowrap;
-z-index:10;
+  position:fixed;
+  bottom:calc(40px + env(safe-area-inset-bottom));
+  left:50%;
+  transform:translateX(-50%);
+  padding:15px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  background:#ff4d6d;
+  color:white;
 }
-
-.result{
-position:absolute;
-top:58%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:70px;
-font-weight:bold;
-text-align:center;
-white-space:nowrap;
-text-shadow:
-0 0 10px #fff,
-0 0 20px #ff7ad9,
-0 0 40px #ff2a6d,
-0 0 80px gold;
-z-index:20;
-}
-
-.sparkle{
-position:absolute;
-width:10px;
-height:10px;
-background:white;
-border-radius:50%;
-opacity:0;
-}
-
-.firework{
-position:absolute;
-width:6px;
-height:6px;
-border-radius:50%;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<h1>今日の綾おみくじ</h1>
 
-<div class="title" id="title">
-今日の綾おみくじ
-</div>
+<img id="image" src="1.jpg">
 
-<div class="result" id="result"></div>
+<br><br>
 
-<img id="photo" src="photo9.jpg">
-
-<button onclick="startOmikuji()">おみくじを引く</button>
-
-</div>
+<button onclick="draw()">おみくじを引く</button>
 
 <script>
+function draw(){
 
-const photos=[
-"photo1.jpg",
-"photo2.jpg",
-"photo3.jpg",
-"photo4.jpg",
-"photo5.jpg",
-"photo6.jpg",
-"photo7.jpg",
-"photo8.jpg",
-"photo9.jpg",
-"photo10.jpg",
-"photo11.jpg",
-"photo12.jpg",
-"photo13.jpg",
-"photo14.jpg",
-"photo15.jpg",
-"photo16.jpg",
-"photo17.jpg"
-];
+  const number = Math.floor(Math.random()*17)+1;
 
-const fortunes=[
-"超大吉",
-"大吉",
-"中吉",
-"吉",
-"小吉"
-];
-
-function startOmikuji(){
-
-document.getElementById("result").innerText="";
-document.getElementById("title").style.display="none";
-
-let duration=5000;
-let start=Date.now();
-
-const roulette=setInterval(()=>{
-
-const random=Math.floor(Math.random()*photos.length);
-
-document.getElementById("photo").src=photos[random];
-
-if(Date.now()-start>duration){
-
-clearInterval(roulette);
-
-showFortune();
+  document.getElementById("image").src = number + ".jpg";
 
 }
-
-},80);
-
-}
-
-function showFortune(){
-
-const fortune=fortunes[Math.floor(Math.random()*fortunes.length)];
-
-document.getElementById("result").innerText=fortune;
-
-if(fortune==="超大吉"){
-fireworks();
-}else{
-sparkleEffect();
-}
-
-}
-
-function sparkleEffect(){
-
-for(let i=0;i<120;i++){
-
-let s=document.createElement("div");
-
-s.className="sparkle";
-
-document.body.appendChild(s);
-
-s.style.left=Math.random()*window.innerWidth+"px";
-s.style.top=Math.random()*window.innerHeight+"px";
-
-s.animate(
-[
-{transform:"scale(0)",opacity:1},
-{transform:"scale(3)",opacity:0}
-],
-{duration:1200,easing:"ease-out"}
-);
-
-setTimeout(()=>{s.remove();},1200);
-
-}
-
-}
-
-function fireworks(){
-
-for(let i=0;i<12;i++){
-
-let x=Math.random()*window.innerWidth;
-let y=Math.random()*window.innerHeight/2;
-
-for(let j=0;j<30;j++){
-
-let f=document.createElement("div");
-
-f.className="firework";
-
-f.style.background="hsl("+Math.random()*360+"deg,100%,60%)";
-
-document.body.appendChild(f);
-
-f.style.left=x+"px";
-f.style.top=y+"px";
-
-let angle=Math.random()*Math.PI*2;
-let distance=Math.random()*120;
-
-let dx=Math.cos(angle)*distance;
-let dy=Math.sin(angle)*distance;
-
-f.animate(
-[
-{transform:"translate(0,0)",opacity:1},
-{transform:`translate(${dx}px,${dy}px)`,opacity:0}
-],
-{duration:1200,easing:"ease-out"}
-);
-
-setTimeout(()=>{f.remove();},1200);
-
-}
-
-}
-
-}
-
 </script>
 
 </body>
