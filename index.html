@@ -13,7 +13,7 @@ body{
   overflow:hidden;
 }
 
-/* タイトル強化 */
+/* タイトル */
 h1{
   margin-top:40px;
   font-size:28px;
@@ -26,6 +26,17 @@ img{
   max-width:90%;
   margin-top:20px;
   border-radius:10px;
+  transition:transform 0.2s;
+}
+
+/* 回転 */
+.spin{
+  animation:spin 0.08s linear infinite;
+}
+
+@keyframes spin{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
 }
 
 /* ボタン */
@@ -92,6 +103,7 @@ const results = [
 function draw(){
 
   const today = new Date().toLocaleDateString();
+
   if(localStorage.getItem("omikujiDate") === today){
     document.getElementById("result").innerText = "今日はもう引いたでしょ😏";
     return;
@@ -99,33 +111,31 @@ function draw(){
 
   localStorage.setItem("omikujiDate", today);
 
+  const img = document.getElementById("image");
+  img.classList.add("spin");
+
   let count = 0;
-  let speed = 50;
 
-  function shuffle(){
+  const interval = setInterval(()=>{
     const random = Math.floor(Math.random() * images.length);
-    document.getElementById("image").src = images[random];
+    img.src = images[random];
     count++;
-    speed += 15; // だんだん遅く
 
-    if(count < 25){
-      setTimeout(shuffle, speed);
-    }else{
-      finish();
+    if(count > 20){
+      clearInterval(interval);
+
+      img.classList.remove("spin");
+
+      const finalIndex = Math.floor(Math.random() * images.length);
+      img.src = images[finalIndex];
+
+      const result = results[finalIndex % results.length];
+      document.getElementById("result").innerText = result;
+
+      sparkle();
     }
-  }
 
-  function finish(){
-    const finalIndex = Math.floor(Math.random() * images.length);
-    document.getElementById("image").src = images[finalIndex];
-
-    const result = results[finalIndex % results.length];
-    document.getElementById("result").innerText = result;
-
-    sparkle();
-  }
-
-  shuffle();
+  },50);
 }
 
 // キラキラ
