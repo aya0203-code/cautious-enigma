@@ -9,17 +9,23 @@
 body{
   text-align:center;
   font-family:sans-serif;
-  background:#fff;
+  background:linear-gradient(180deg,#fff,#ffe4ec);
   overflow:hidden;
 }
 
+/* タイトル強化 */
 h1{
   margin-top:40px;
+  font-size:28px;
+  color:#ff4d6d;
+  text-shadow:0 0 10px #ff9bb0, 0 0 20px #ffccd5;
 }
 
+/* 画像 */
 img{
   max-width:90%;
   margin-top:20px;
+  border-radius:10px;
 }
 
 /* ボタン */
@@ -36,38 +42,34 @@ button{
   color:white;
 }
 
+/* 結果 */
+#result{
+  font-size:26px;
+  margin-top:15px;
+  font-weight:bold;
+  color:#ff3366;
+}
+
 /* キラキラ */
 .sparkle{
   position:fixed;
-  width:10px;
-  height:10px;
+  width:8px;
+  height:8px;
   background:gold;
   border-radius:50%;
-  animation:fall 1s linear forwards;
+  animation:fall 1.5s linear forwards;
 }
 
 @keyframes fall{
-  from{
-    transform:translateY(0);
-    opacity:1;
-  }
-  to{
-    transform:translateY(200px);
-    opacity:0;
-  }
-}
-
-/* 結果テキスト */
-#result{
-  font-size:24px;
-  margin-top:10px;
+  from{transform:translateY(0);opacity:1;}
+  to{transform:translateY(300px);opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
-<h1>今日の綾おみくじ</h1>
+<h1>✨今日の綾おみくじ✨</h1>
 
 <img id="image" src="photo9.jpg">
 <div id="result"></div>
@@ -76,74 +78,65 @@ button{
 
 <script>
 const images = [
-"photo1.jpg",
-"photo2.jpg",
-"photo3.jpg",
-"photo4.jpg",
-"photo5.jpg",
-"photo6.jpg",
-"photo7.jpg",
-"photo8.jpg",
-"photo9.jpg",
-"photo10.jpg",
-"photo11.jpg",
-"photo12.jpg",
-"photo13.jpg.JPG",
-"photo14.jpg.JPG",
-"photo15.jpg.JPG",
-"photo16.jpg",
-"photo17.jpg.JPG",
-"photo18.jpg.JPG"
+"photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg",
+"photo6.jpg","photo7.jpg","photo8.jpg","photo9.jpg","photo10.jpg",
+"photo11.jpg","photo12.jpg","photo13.jpg.JPG","photo14.jpg.JPG",
+"photo15.jpg.JPG","photo16.jpg","photo17.jpg.JPG","photo18.jpg.JPG"
 ];
 
 const results = [
-"大吉🔥",
-"中吉✨",
-"小吉😊",
-"吉👍",
-"末吉😏",
-"凶💀",
-"超大吉💖",
-"神引き😍",
-"ラッキーDAY🌈"
+"大吉🔥","中吉✨","小吉😊","吉👍","末吉😏",
+"凶💀","超大吉💖","神引き😍","ラッキーDAY🌈"
 ];
 
 function draw(){
 
-  let count = 0;
+  const today = new Date().toLocaleDateString();
+  if(localStorage.getItem("omikujiDate") === today){
+    document.getElementById("result").innerText = "今日はもう引いたでしょ😏";
+    return;
+  }
 
-  // シャッフル演出
-  const interval = setInterval(()=>{
+  localStorage.setItem("omikujiDate", today);
+
+  let count = 0;
+  let speed = 50;
+
+  function shuffle(){
     const random = Math.floor(Math.random() * images.length);
     document.getElementById("image").src = images[random];
     count++;
+    speed += 15; // だんだん遅く
 
-    if(count > 15){
-      clearInterval(interval);
-
-      // 最終結果
-      const final = Math.floor(Math.random() * images.length);
-      document.getElementById("image").src = images[final];
-
-      const result = results[Math.floor(Math.random() * results.length)];
-      document.getElementById("result").innerText = result;
-
-      sparkle();
+    if(count < 25){
+      setTimeout(shuffle, speed);
+    }else{
+      finish();
     }
+  }
 
-  },100);
+  function finish(){
+    const finalIndex = Math.floor(Math.random() * images.length);
+    document.getElementById("image").src = images[finalIndex];
+
+    const result = results[finalIndex % results.length];
+    document.getElementById("result").innerText = result;
+
+    sparkle();
+  }
+
+  shuffle();
 }
 
-// キラキラ生成
+// キラキラ
 function sparkle(){
-  for(let i=0;i<20;i++){
+  for(let i=0;i<30;i++){
     const s = document.createElement("div");
     s.className = "sparkle";
     s.style.left = Math.random()*100 + "vw";
     s.style.top = Math.random()*50 + "vh";
     document.body.appendChild(s);
-
-    setTimeout(()=>{s.remove();},1000);
+    setTimeout(()=>{s.remove();},1500);
   }
 }
 </script>
