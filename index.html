@@ -9,6 +9,12 @@
 body{
   text-align:center;
   font-family:sans-serif;
+  background:#fff;
+  overflow:hidden;
+}
+
+h1{
+  margin-top:40px;
 }
 
 img{
@@ -16,6 +22,7 @@ img{
   margin-top:20px;
 }
 
+/* ボタン */
 button{
   position:fixed;
   bottom:calc(40px + env(safe-area-inset-bottom));
@@ -23,6 +30,37 @@ button{
   transform:translateX(-50%);
   padding:15px 30px;
   font-size:18px;
+  border:none;
+  border-radius:30px;
+  background:#ff4d6d;
+  color:white;
+}
+
+/* キラキラ */
+.sparkle{
+  position:fixed;
+  width:10px;
+  height:10px;
+  background:gold;
+  border-radius:50%;
+  animation:fall 1s linear forwards;
+}
+
+@keyframes fall{
+  from{
+    transform:translateY(0);
+    opacity:1;
+  }
+  to{
+    transform:translateY(200px);
+    opacity:0;
+  }
+}
+
+/* 結果テキスト */
+#result{
+  font-size:24px;
+  margin-top:10px;
 }
 </style>
 </head>
@@ -31,7 +69,8 @@ button{
 
 <h1>今日の綾おみくじ</h1>
 
-<img id="image" src="photo1.jpg">
+<img id="image" src="photo9.jpg">
+<div id="result"></div>
 
 <button onclick="draw()">おみくじを引く</button>
 
@@ -57,9 +96,55 @@ const images = [
 "photo18.jpg.JPG"
 ];
 
+const results = [
+"大吉🔥",
+"中吉✨",
+"小吉😊",
+"吉👍",
+"末吉😏",
+"凶💀",
+"超大吉💖",
+"神引き😍",
+"ラッキーDAY🌈"
+];
+
 function draw(){
-  const random = Math.floor(Math.random() * images.length);
-  document.getElementById("image").src = images[random];
+
+  let count = 0;
+
+  // シャッフル演出
+  const interval = setInterval(()=>{
+    const random = Math.floor(Math.random() * images.length);
+    document.getElementById("image").src = images[random];
+    count++;
+
+    if(count > 15){
+      clearInterval(interval);
+
+      // 最終結果
+      const final = Math.floor(Math.random() * images.length);
+      document.getElementById("image").src = images[final];
+
+      const result = results[Math.floor(Math.random() * results.length)];
+      document.getElementById("result").innerText = result;
+
+      sparkle();
+    }
+
+  },100);
+}
+
+// キラキラ生成
+function sparkle(){
+  for(let i=0;i<20;i++){
+    const s = document.createElement("div");
+    s.className = "sparkle";
+    s.style.left = Math.random()*100 + "vw";
+    s.style.top = Math.random()*50 + "vh";
+    document.body.appendChild(s);
+
+    setTimeout(()=>{s.remove();},1000);
+  }
 }
 </script>
 
